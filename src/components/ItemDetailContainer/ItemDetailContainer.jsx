@@ -1,36 +1,37 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {ItemDetail} from "../ItemDetail/ItemDetail";
+import { getProductsById } from "../../services/products";
 
 export const ItemDetailContainer = () => {
     const [detail, setDetail] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const {id} = useParams();
 
     useEffect(() => {
-        fetch("/data/products.json") 
-        .then((res) => {
-            if (!res.ok){
-                throw new Error ("Hubo un problema al buscar productos");
-            }
-            return res.json();
+        setLoading(true);
+        setError(null);
+        setDetail({});
+
+        getProductsById(id)
+        .then ((data) => setDetail(data))
+        .catch ((err) => {
+            console.error("Error al obtener el detalle:", err);
+            setError(err.message || "Error al conectar con el servicio.");
         })
-        .then((data) => {
-            const found = data.find((prod) => prod.id === id)
-            if(found) {
-                setDetail(found);
-            } else {
-                throw new Error("Producto no encontrado"); 
-            }   
-        }) 
-        .catch(() => {});
+        .finally(() => setLoading(false));
+
     }, [id]);
 
     return (
         <main>
-            {Object.keys(detail).length ? (
+            {loading && <p>Cargando detalles del producto...</p>} 
+            
+            {error && <p style={{ color: 'red' }}>Ocurrió un error: {error}</p>}
+            
+            {!loading && !error && Object.keys(detail).length > 0 && (
                 <ItemDetail detail={detail} />
-            ) : (
-                <p>Cargando...</p>
             )}
         </main>
     );

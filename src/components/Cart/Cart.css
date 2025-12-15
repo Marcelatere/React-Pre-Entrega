@@ -1,0 +1,24 @@
+.item-list-container {
+    max-width: 900px; /* Define el ancho máximo del carrito */
+    margin: 40px auto; /* Centra el bloque horizontalmente */
+}
+
+.item-list-container h2 {
+  width: 100%;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.btn-container {
+  width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.total-pagar {
+  width: 100%;
+  text-align: center;
+}

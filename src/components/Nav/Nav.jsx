@@ -18,10 +18,10 @@ export const Nav = () => {
                     <Link to={"category/salado"}>Salado</Link>
                 </li>
                 <li>
-                    <Link>Carrito</Link>
-                    {getTotalItems() > 0 && (
+                    <Link to={"/carrito"}>Carrito</Link>
+                        {getTotalItems() > 0 && (
                         <span className="in-cart">{getTotalItems()}</span>
-                    )}
+                        )}
                 </li>
             </ul>
         </nav>
